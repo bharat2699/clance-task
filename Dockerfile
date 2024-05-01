@@ -1,5 +1,7 @@
 FROM spotmentor/alpine-protobuf:1.0.0
 
+RUN apk add --update musl-dev gcc cargo
+
 RUN apk add --no-cache --virtual .build-deps build-base
 
 ENV PYTHONUNBUFFERED 1
@@ -12,6 +14,6 @@ WORKDIR /code
 
 ADD requirements.txt /code/
 
-RUN pip install -r requirements.txt && apk del .build-deps
+RUN pip install --upgrade pip && pip install -r requirements.txt && apk del .build-deps
 
 ADD src/ /code/
