@@ -5,8 +5,12 @@ import logging.config
 import mongoengine
 from dotenv import load_dotenv
 
+from celery_config import celery_init_app
+
 # Local .env path
-# load_dotenv('/Users/bharatgianchandani/Documents/backend-python-assessment-main/local.env')
+# load_dotenv(
+#     "/Users/bharatgianchandani/Documents/backend-python-assessment-main/local.env"
+# )
 
 # Docker .env path
 load_dotenv('local.env')
@@ -15,6 +19,15 @@ application = Flask(os.getenv("APPLICATION_NAME"))
 SETTINGS_FILE = os.getenv("SETTINGS_FILE", "settings.local_settings")
 
 application.config.from_object(SETTINGS_FILE)
+
+application.config.from_mapping(
+    CELERY=dict(
+        broker_url=os.getenv("CELERY_BROKER_URL"),
+        result_backend=os.getenv("CELERY_BROKER_URL"),
+        task_ignore_result=True,
+    ),
+)
+celery_app = celery_init_app(application)
 
 with application.app_context():
     # this loads all the views with the app context
@@ -37,10 +50,10 @@ for url, view, methods, _ in all_urls:
 logging.config.dictConfig(application.config["LOGGING"])
 
 mongoengine.connect(
-    alias='default',
-    db=application.config['MONGO_SETTINGS']['DB_NAME'],
-    host=application.config['MONGO_SETTINGS']['DB_HOST'],
-    port=application.config['MONGO_SETTINGS']['DB_PORT'],
-    username=application.config['MONGO_SETTINGS']['DB_USERNAME'],
-    password=application.config['MONGO_SETTINGS']['DB_PASSWORD'],
+    alias="default",
+    db=application.config["MONGO_SETTINGS"]["DB_NAME"],
+    host=application.config["MONGO_SETTINGS"]["DB_HOST"],
+    port=application.config["MONGO_SETTINGS"]["DB_PORT"],
+    username=application.config["MONGO_SETTINGS"]["DB_USERNAME"],
+    password=application.config["MONGO_SETTINGS"]["DB_PASSWORD"],
 )

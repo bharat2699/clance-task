@@ -2,7 +2,9 @@ from apis import views
 
 
 api_urls = [
-    ("/", views.index, ["GET"], "flask scaffolding index url")
+    ("/", views.index, ["GET"], "flask scaffolding index url"),
+    ("/signup", views.signup, ["POST"], "signup url"),
+    ("/login", views.login, ["POST"], "login url"),
 ]
 
 other_urls = []

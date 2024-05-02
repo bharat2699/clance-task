@@ -24,8 +24,10 @@ jedi
 Jinja2
 kombu
 MarkupSafe
+marshmallow
 matplotlib-inline
 mongoengine
+packaging
 parso
 pexpect
 prompt-toolkit
@@ -46,4 +48,3 @@ vine
 wcwidth
 Werkzeug
 WTForms
-python-dotenv
