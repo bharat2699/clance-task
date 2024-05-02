@@ -1,12 +1,17 @@
-from mongoengine import Document
+from mongoengine import Document, StringField, EmailField, DateTimeField
+from utils.password_handler import PasswordHandler
+from datetime import datetime, timezone
+
+ph = PasswordHandler()
 
 
 class User(Document):
-    """
-    TASK: Create a model for user with minimalistic
-          information required for user authentication
+    name = StringField(required=True)
+    email = EmailField(required=True, unique=True)
+    password = StringField(required=True)
+    created_at = DateTimeField(default=datetime.now(timezone.utc))
+    updated_at = DateTimeField(default=datetime.now(timezone.utc))
 
-    HINT: Do not store password as is.
-    """
-
-    pass
+    def save(self, *args, **kwargs):
+        self.password = ph.hash_password(self.password)
+        super(User, self).save(*args, **kwargs)

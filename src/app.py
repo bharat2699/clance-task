@@ -3,10 +3,16 @@ from flask import Flask
 import os
 import logging.config
 import mongoengine
+from dotenv import load_dotenv
 
+# Local .env path
+# load_dotenv('/Users/bharatgianchandani/Documents/backend-python-assessment-main/local.env')
 
-application = Flask(os.environ.get("APPLICATION_NAME"))
-SETTINGS_FILE = os.environ.get("SETTINGS_FILE", "settings.local_settings")
+# Docker .env path
+load_dotenv('local.env')
+
+application = Flask(os.getenv("APPLICATION_NAME"))
+SETTINGS_FILE = os.getenv("SETTINGS_FILE", "settings.local_settings")
 
 application.config.from_object(SETTINGS_FILE)
 

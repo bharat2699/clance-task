@@ -102,3 +102,4 @@ ENV/
 # vim files
 *.swp
 data
+rough.py
