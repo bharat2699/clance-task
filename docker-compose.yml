@@ -1,8 +1,6 @@
 version: '3'
 
 services:
-  
-  # database service
   db:
     image: mongo:3.6
     ports:
@@ -10,15 +8,15 @@ services:
     volumes:
       - ./data/mongodb:/data/db
     command: --smallfiles
+    networks:
+      - scaffolding-network
 
-  # web service for flask application
   web:
     build:
       context: .
       dockerfile: Dockerfile
     image: flask-scaffolding:assessment
-    env_file:
-      local.env
+    env_file: local.env
     command: >
       /bin/ash -c "
         flask run --host=0.0.0.0
@@ -30,3 +28,26 @@ services:
       - "8400:5000"
     depends_on:
       - db
+    networks:
+      - scaffolding-network
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flask-scaffolding:assessment
+    env_file: local.env
+    command: >
+      /bin/ash -c "
+        celery -A app worker --loglevel INFO
+      "
+    volumes:
+      - ./src/:/code
+      - ./logs:/var/log/scaffolding
+    depends_on:
+      - db
+    networks:
+      - scaffolding-network
+
+networks:
+  scaffolding-network:
