@@ -35,7 +35,7 @@ protobuf
 ptyprocess
 pure-eval
 Pygments
-pymongo
+pymongo==3.6.1
 python-dateutil
 python-dotenv
 six

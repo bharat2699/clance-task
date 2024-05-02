@@ -1,5 +1,38 @@
 ## Backend python assessment
 
+***Note from candidate:***
+
+1. CURL command to test the signup api:
+
+```
+curl  -X POST \
+  'http://127.0.0.1:8400/signup' \
+  --header 'Accept: */*' \
+  --header 'User-Agent: Thunder Client (https://www.thunderclient.com)' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+  "userName": "Bharat",
+  "userEmail": "bharat4official@gmail.com",
+  "userPassword": "hello"
+}'
+```
+
+2. CURL command to test the login api:
+
+```
+curl  -X POST \
+  'http://127.0.0.1:8400/login' \
+  --header 'Accept: */*' \
+  --header 'User-Agent: Thunder Client (https://www.thunderclient.com)' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+  "userEmail": "bharat4official@gmail.com",
+  "userPassword": "hello"
+}'
+```
+
+3. Celery Worker has been dockerized and is using mongodb as broker.
+
 ***Code Navigation***
 
 This project consists of a main folder `src` which contains all the project files. The files outside the source folder consists of `docker-compose.yml`, `Dockerfile` and a `local.env` file which are used for running the docker containers. The `src` folder contains the entrypoint of the Flask project `app.py`, `settings` folder which contains your application settings and an `apis` folder that stores all your urls and views.
